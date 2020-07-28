@@ -286,7 +286,12 @@ class TodoTreeDataProvider implements TreeDataProvider<Item> {
 
         if (element.type === 'file') {
             if (this.sortByCount) {
-                return [...element.headlessTodos, ...element.heads.slice().sort((a, b) => this.count(b.todos).unchecked - this.count(a.todos).unchecked)];
+                return [
+                    ...element.headlessTodos,
+                    ...element.heads.slice()
+                        .filter(a => this.count(a.todos).unchecked > 0)
+                        .sort((a, b) => this.count(b.todos).unchecked - this.count(a.todos).unchecked)
+                ];
             }
 
             return [...element.headlessTodos, ...element.heads];
